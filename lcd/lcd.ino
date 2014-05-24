@@ -62,17 +62,17 @@ void do_mode_cycle() {
   
   // Set the Light state
   if(cycle_step == 0) {
-    state_red    = 1;
+    state_red    = 0;
     state_yellow = 0;
-    state_green  = 0;
+    state_green  = 1;
   } else if(cycle_step == 1) {
     state_red    = 0;
     state_yellow = 1;
     state_green  = 0;
   } else if(cycle_step == 2) {
-    state_red    = 0;
+    state_red    = 1;
     state_yellow = 0;
-    state_green  = 1;
+    state_green  = 0;
   }
 }
 
@@ -150,16 +150,22 @@ void process_mode_switch() {
   
   // Activate on button push *and* allowance to change mode
   if(switch_state == HIGH && can_change_mode) {
+    mode = (mode == MODE_CYCLE) ? MODE_ONOFF : mode + 1;
     can_change_mode = false;  
-    mode++;
-   
-    // Cycle back to beginning
-    if(mode > MODE_CYCLE) {
-      mode = MODE_ONOFF;
-    } 
     
+    reset_mode_states();
     turn_lights_off();
   }
+}
+
+/**
+ * Method that's intended to be a reset helper method that will
+ * reset the state of the logic that's used in each Mode.
+ */
+void reset_mode_states() {
+  // Reset Cycle state
+  cycle_step = 0;
+  prev_cycle_millis = cycle_millis = 0;
 }
 
 /**
