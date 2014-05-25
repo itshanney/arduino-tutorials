@@ -1,6 +1,6 @@
 #include <LiquidCrystal.h>
 
-LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+LiquidCrystal lcd(8, 7, 5, 4, 3, 2);
 
 const long SECOND_IN_MILLIS = 1000;
 
